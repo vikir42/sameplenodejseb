@@ -5,4 +5,6 @@ app.get('/', function (req, res) {
 	  res.send('Hello World')
 })
 
+app.disable('x-powered-by');
+
 app.listen(8080)
