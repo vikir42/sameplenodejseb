@@ -1,0 +1,29 @@
+#!/bin/bash
+
+echo "starting $0"
+
+BASEDIR=$(cd `dirname $0` && pwd)
+
+if [ -z "`command -v aws`" ] || [ -z "`command -v jq`" ]; then
+        echo "We're running on a server without aws CLI or jq"
+        echo "Very likely an old Apache Server."
+        echo "Exit successful and skip the rest."
+        exit 0
+fi
+
+# Get Environment variables
+echo "Getting Env variables"
+METADATA_TOKEN=$(curl -sfX PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 600")
+EC2_REGION=$(curl -H "X-aws-ec2-metadata-token: ${METADATA_TOKEN}" \
+    -sf http://169.254.169.254/latest/dynamic/instance-identity/document | jq -r ".region")
+INSTANCEID=$(curl -H "X-aws-ec2-metadata-token: ${METADATA_TOKEN}" \
+    -sf http://169.254.169.254/latest/meta-data/instance-id)
+INSTANCE_TAG_ENVIRONMENT=$(curl -H "X-aws-ec2-metadata-token: ${METADATA_TOKEN}" \
+    -sf http://169.254.169.254/latest/meta-data/tags/instance/Environment/ | awk '{print tolower($0)}')
+INSTANCE_TAG_STACK=$(curl -H "X-aws-ec2-metadata-token: ${METADATA_TOKEN}" \
+    -sf http://169.254.169.254/latest/meta-data/tags/instance/Stack/ | awk '{print tolower($0)}')
+INSTANCE_TAG_TIER=$(curl -H "X-aws-ec2-metadata-token: ${METADATA_TOKEN}" \
+    -sf http://169.254.169.254/latest/meta-data/tags/instance/Tier/ | awk '{print tolower($0)}')
+INSTANCE_CODEDEPLOYMENT=$(curl -H "X-aws-ec2-metadata-token: ${METADATA_TOKEN}" \
+    -sf http://169.254.169.254/latest/meta-data/tags/instance/CodeDeployProvisioningDeploymentId/ | awk '{print tolower($0)}')
+REC_ENVIRONMENT=$(echo ${INSTANCE_TAG_ENVIRONMENT}_${INSTANCE_TAG_STACK})
