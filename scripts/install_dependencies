@@ -1,6 +1,7 @@
 #!/bin/bash
 
 echo "starting $0"
+if
 
 BASEDIR=$(cd `dirname $0` && pwd)
 
