@@ -23,6 +23,36 @@ const verifyDNSResolve = (hostname) => {
 // Usage
 verifyDNSResolve('database-2.cvwop0tqqo96.us-east-1.rds.amazonaws.com');
 
+const mysql = require('mysql');
+
+// MySQL database configuration with connectTimeout property
+const connection = mysql.createConnection({
+  host: '10.0.151.148',
+  user: 'admin',
+  password: 'test1234'
+});
+
+// Attempt to connect to the database
+connection.connect((error) => {
+  if (error) {
+    console.error('Error connecting to the database:', error);
+    return;
+  }
+
+  console.log('Connected to the MySQL database.');
+  // Perform any other database operations here
+
+  // Close the connection
+  connection.end((error) => {
+    if (error) {
+      console.error('Error closing the database connection:', error);
+      return;
+    }
+
+    console.log('Disconnected from the MySQL database.');
+  });
+});
+
 
 var server = http.createServer(function (req, res) {
     if (req.method === 'POST') {
