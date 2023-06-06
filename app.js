@@ -7,35 +7,23 @@ var log = function(entry) {
     fs.appendFileSync('/tmp/sample-app.log', new Date().toISOString() + ' - ' + entry + '\n');
 };
 
-const mysql = require('mysql');
-
-// MySQL database configuration
-const connection = mysql.createConnection({
-  host: 'database-2.cvwop0tqqo96.us-east-1.rds.amazonaws.com',
-  user: 'admin',
-  password: 'test1234'
-});
-
-// Attempt to connect to the database
-connection.connect((error) => {
-  if (error) {
-    console.error('Error connecting to the database:', error);
-    return;
-  }
-
-  console.log('Connected to the MySQL database.');
-  // Perform any other database operations here
-
-  // Close the connection
-  connection.end((error) => {
+const dns = require('dns');
+let hostname = 'database-2.cvwop0tqqo96.us-east-1.rds.amazonaws.com'
+// Function to verify DNS resolution
+const verifyDNSResolve = (hostname) => {
+  dns.resolve(hostname, (error, addresses) => {
     if (error) {
-      console.error('Error closing the database connection:', error);
+      console.error('DNS resolution failed:', error);
       return;
     }
 
-    console.log('Disconnected from the MySQL database.');
+    console.log('IP addresses:', addresses);
   });
-});
+};
+
+// Usage
+verifyDNSResolve('example.com');
+
 
 var server = http.createServer(function (req, res) {
     if (req.method === 'POST') {
