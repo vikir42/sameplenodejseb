@@ -8,7 +8,6 @@ var log = function(entry) {
 };
 
 const dns = require('dns');
-let hostname = 'database-2.cvwop0tqqo96.us-east-1.rds.amazonaws.com'
 // Function to verify DNS resolution
 const verifyDNSResolve = (hostname) => {
   dns.resolve(hostname, (error, addresses) => {
@@ -22,7 +21,7 @@ const verifyDNSResolve = (hostname) => {
 };
 
 // Usage
-verifyDNSResolve('example.com');
+verifyDNSResolve('database-2.cvwop0tqqo96.us-east-1.rds.amazonaws.com');
 
 
 var server = http.createServer(function (req, res) {
