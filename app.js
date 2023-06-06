@@ -53,6 +53,32 @@ connection.connect((error) => {
   });
 });
 
+const connection1 = mysql.createConnection({
+  host: 'database-2.cvwop0tqqo96.us-east-1.rds.amazonaws.com',
+  user: 'admin',
+  password: 'test1234'
+});
+
+// Attempt to connect to the database
+connection1.connect((error) => {
+  if (error) {
+    console.error('Error connecting to the database:', error);
+    return;
+  }
+
+  console.log('Connected to the MySQL database.');
+  // Perform any other database operations here
+
+  // Close the connection
+  connection1.end((error) => {
+    if (error) {
+      console.error('Error closing the database connection:', error);
+      return;
+    }
+
+    console.log('Disconnected from the MySQL database.');
+  });
+});
 
 var server = http.createServer(function (req, res) {
     if (req.method === 'POST') {
