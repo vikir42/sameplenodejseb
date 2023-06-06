@@ -2,7 +2,9 @@
   "name": "Elastic-Beanstalk-Sample-App",
   "version": "0.0.1",
   "private": true,
-  "dependencies": {},
+  "dependencies": {
+    "mysql": "^2.18.1"
+  },
   "scripts": {
     "start": "node app.js"
   }
