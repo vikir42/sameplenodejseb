@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
-    "mysql": "^2.18.1"
+    "dns": "^0.2.2"
   },
   "scripts": {
     "start": "node app.js"
